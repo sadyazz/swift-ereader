@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DDC890B32F7848F3008727F0 /* ReadiumNavigator in Frameworks */ = {isa = PBXBuildFile; productRef = DDC890B22F7848F3008727F0 /* ReadiumNavigator */; };
+		DDC890B82F785E4B008727F0 /* ReadiumStreamer in Frameworks */ = {isa = PBXBuildFile; productRef = DDC890B72F785E4B008727F0 /* ReadiumStreamer */; };
+		DDC890BC2F785F38008727F0 /* ReadiumShared in Frameworks */ = {isa = PBXBuildFile; productRef = DDC890BB2F785F38008727F0 /* ReadiumShared */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		DD2D480F2F4268600087196B /* swift-ereader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "swift-ereader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDC890B32F7848F3008727F0 /* ReadiumNavigator in Frameworks */,
+				DDC890BC2F785F38008727F0 /* ReadiumShared in Frameworks */,
+				DDC890B82F785E4B008727F0 /* ReadiumStreamer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +42,7 @@
 			isa = PBXGroup;
 			children = (
 				DD2D48112F4268600087196B /* swift-ereader */,
+				DDC890B62F785E4A008727F0 /* Frameworks */,
 				DD2D48102F4268600087196B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +53,13 @@
 				DD2D480F2F4268600087196B /* swift-ereader.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DDC890B62F785E4A008727F0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +82,9 @@
 			);
 			name = "swift-ereader";
 			packageProductDependencies = (
+				DDC890B22F7848F3008727F0 /* ReadiumNavigator */,
+				DDC890B72F785E4B008727F0 /* ReadiumStreamer */,
+				DDC890BB2F785F38008727F0 /* ReadiumShared */,
 			);
 			productName = "swift-ereader";
 			productReference = DD2D480F2F4268600087196B /* swift-ereader.app */;
@@ -94,6 +114,9 @@
 			);
 			mainGroup = DD2D48062F4268600087196B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DDC890B12F7848F3008727F0 /* XCRemoteSwiftPackageReference "swift-toolkit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DD2D48102F4268600087196B /* Products */;
 			projectDirPath = "";
@@ -330,6 +353,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DDC890B12F7848F3008727F0 /* XCRemoteSwiftPackageReference "swift-toolkit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/readium/swift-toolkit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DDC890B22F7848F3008727F0 /* ReadiumNavigator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDC890B12F7848F3008727F0 /* XCRemoteSwiftPackageReference "swift-toolkit" */;
+			productName = ReadiumNavigator;
+		};
+		DDC890B72F785E4B008727F0 /* ReadiumStreamer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDC890B12F7848F3008727F0 /* XCRemoteSwiftPackageReference "swift-toolkit" */;
+			productName = ReadiumStreamer;
+		};
+		DDC890BB2F785F38008727F0 /* ReadiumShared */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDC890B12F7848F3008727F0 /* XCRemoteSwiftPackageReference "swift-toolkit" */;
+			productName = ReadiumShared;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DD2D48072F4268600087196B /* Project object */;
 }

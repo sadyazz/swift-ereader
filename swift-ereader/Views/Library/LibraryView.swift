@@ -24,7 +24,7 @@ struct LibraryView: View{
                         if showAsList {
                             LazyVStack(spacing: 0) {
                                 ForEach(books) { book in 
-                                    NavigationLink(destination: PDFReaderView(book: book)) {
+                                    NavigationLink(destination: readerView(for: book)) {
                                         HStack(spacing: 12) {
                                             RoundedRectangle(cornerRadius: 4)
                                                 .fill(Color.gray.opacity(0.3))
@@ -50,7 +50,7 @@ struct LibraryView: View{
                                 GridItem(.adaptive(minimum: 120))
                             ], spacing: 20) {
                                 ForEach(books) { book in 
-                                    NavigationLink(destination: PDFReaderView(book: book)) {
+                                    NavigationLink(destination: readerView(for: book)) {
                                         BookGridItem(book: book)
                                     }
                                 }
@@ -90,6 +90,15 @@ struct LibraryView: View{
                 books.append(book)
                 print("📚 Added book: \(book.title), total: \(books.count)")
             }
+        }
+    }
+
+    @ViewBuilder
+    private func readerView(for book: Book) -> some View {
+        if book.fileURL.pathExtension.lowercased() == "epub" {
+            EPUBReaderView(book: book)
+        } else {
+            PDFReaderView(book: book)
         }
     }
 }
