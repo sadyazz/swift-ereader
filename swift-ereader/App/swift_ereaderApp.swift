@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct swift_ereaderApp: App {
@@ -13,5 +14,6 @@ struct swift_ereaderApp: App {
         WindowGroup {
             LibraryView()
         }
+        .modelContainer(for: Book.self)
     }
 }

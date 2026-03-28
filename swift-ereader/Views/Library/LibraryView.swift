@@ -1,7 +1,10 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import SwiftData
+
 struct LibraryView: View{
-    @State private var books: [Book] = []
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Book.dateAdded, order: .reverse) private var books: [Book]
     @State private var showAsList = false
 
     var body: some View {
@@ -77,9 +80,7 @@ struct LibraryView: View{
     }
 
     private func addBook() {
-        print("🟡 addBook() called")
         openDocumentPicker { urls in
-            print("🟢 onPick callback with \(urls.count) URLs")
             for url in urls {
                 let book = Book(
                     title: url.deletingPathExtension().lastPathComponent,
@@ -87,8 +88,7 @@ struct LibraryView: View{
                     fileURL: url,
                     dateAdded: Date()
                 )
-                books.append(book)
-                print("📚 Added book: \(book.title), total: \(books.count)")
+                modelContext.insert(book)
             }
         }
     }
