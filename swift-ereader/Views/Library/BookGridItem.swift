@@ -18,6 +18,7 @@ struct BookGridItem: View {
                 .font(Font.caption)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
+                .frame(height: 32, alignment: .top)
         }
     }
 }
