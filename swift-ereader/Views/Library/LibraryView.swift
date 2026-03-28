@@ -1,5 +1,5 @@
 import SwiftUI
-
+import UniformTypeIdentifiers
 struct LibraryView: View{
     @State private var books: [Book] = []
 
@@ -23,8 +23,8 @@ struct LibraryView: View{
                         LazyVGrid(columns: [
                             GridItem(.adaptive(minimum: 120))
                         ], spacing: 20) {
-                            ForEach(books) { book in 
-                                Text(book.title)
+                            ForEach(books) { book in
+                                BookGridItem(book: book)
                                 }
                         }
                         .padding()
@@ -33,7 +33,7 @@ struct LibraryView: View{
             }
             .navigationTitle("Library")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing){
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: addBook) {
                         Image(systemName: "plus")
                     }
@@ -43,7 +43,20 @@ struct LibraryView: View{
     }
 
     private func addBook() {
-        print("add book tapped")
+        print("🟡 addBook() called")
+        openDocumentPicker { urls in
+            print("🟢 onPick callback with \(urls.count) URLs")
+            for url in urls {
+                let book = Book(
+                    title: url.deletingPathExtension().lastPathComponent,
+                    coverImage: nil,
+                    fileURL: url,
+                    dateAdded: Date()
+                )
+                books.append(book)
+                print("📚 Added book: \(book.title), total: \(books.count)")
+            }
+        }
     }
 }
 
