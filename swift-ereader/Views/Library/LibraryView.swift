@@ -24,7 +24,10 @@ struct LibraryView: View{
                             GridItem(.adaptive(minimum: 120))
                         ], spacing: 20) {
                             ForEach(books) { book in
+                                NavigationLink(destination: PDFReaderView(book: book)){
+
                                 BookGridItem(book: book)
+                                }
                                 }
                         }
                         .padding()
