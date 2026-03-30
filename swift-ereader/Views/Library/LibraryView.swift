@@ -6,6 +6,15 @@ struct LibraryView: View{
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Book.dateAdded, order: .reverse) private var books: [Book]
     @State private var showAsList = false
+    @State private var searchText = ""
+
+    private var filteredBooks: [Book] {
+        if searchText.isEmpty {
+            return books
+        }
+
+        return books.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+    }
 
     var body: some View {
         NavigationView {
@@ -26,7 +35,7 @@ struct LibraryView: View{
                     ScrollView {
                         if showAsList {
                             LazyVStack(spacing: 0) {
-                                ForEach(books) { book in 
+                                ForEach(filteredBooks) { book in 
                                     NavigationLink(destination: readerView(for: book)) {
                                         HStack(spacing: 12) {
                                             if let coverURL = book.coverURL, let image = UIImage(contentsOfFile: coverURL.path) {
@@ -66,7 +75,7 @@ struct LibraryView: View{
                             LazyVGrid(columns: [
                                 GridItem(.adaptive(minimum: 120))
                             ], spacing: 20) {
-                                ForEach(books) { book in 
+                                ForEach(filteredBooks) { book in 
                                     NavigationLink(destination: readerView(for: book)) {
                                         BookGridItem(book: book)
                                     }
@@ -85,6 +94,7 @@ struct LibraryView: View{
                 }
             }
             .navigationTitle("Library")
+            .searchable(text: $searchText)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: { showAsList.toggle() }) {
