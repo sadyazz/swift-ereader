@@ -7,6 +7,9 @@ class Book {
     var coverImage: String?
     var filePath: String
     var dateAdded: Date
+    var readingProgress: Int?
+    var epubLocator: String?
+    var lastOpened: Date?
 
     init(title: String, coverImage: String?, fileURL: URL, dateAdded: Date) {
         self.title = title
@@ -19,6 +22,9 @@ class Book {
             self.filePath = fileURL.path
         }
         self.dateAdded = dateAdded
+        self.readingProgress = nil
+        self.epubLocator = nil
+        self.lastOpened = nil
     }
 
     var fileURL: URL {

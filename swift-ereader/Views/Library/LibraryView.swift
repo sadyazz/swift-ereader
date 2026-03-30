@@ -9,11 +9,13 @@ struct LibraryView: View{
     @State private var searchText = ""
 
     private var filteredBooks: [Book] {
-        if searchText.isEmpty {
-            return books
+        let sorted = books.sorted { a, b in
+            (a.lastOpened ?? .distantPast) > (b.lastOpened ?? .distantPast)
         }
-
-        return books.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+        if searchText.isEmpty {
+            return sorted
+        }
+        return sorted.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
     }
 
     var body: some View {
@@ -171,8 +173,10 @@ struct LibraryView: View{
     private func readerView(for book: Book) -> some View {
         if book.fileURL.pathExtension.lowercased() == "epub" {
             EPUBReaderView(book: book)
+                .onAppear { book.lastOpened = Date() }
         } else {
             PDFReaderView(book: book)
+                .onAppear { book.lastOpened = Date() }
         }
     }
 }

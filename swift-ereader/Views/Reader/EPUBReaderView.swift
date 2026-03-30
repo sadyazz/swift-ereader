@@ -1,16 +1,19 @@
 import SwiftUI
+import SwiftData
 import ReadiumNavigator
 import ReadiumShared
 
 struct EPUBReaderView: View {
+    @Environment(\.modelContext) private var modelContext
     let book: Book
     @State private var publication: Publication?
+    @State private var navigator: EPUBNavigatorViewController?
     @State private var error: String?
 
     var body: some View {
         Group {
-            if let publication {
-                EPUBView(publication: publication)
+            if let publication, let navigator {
+                EPUBView(navigator: navigator)
             } else if let error {
                 Text("Failed to open: \(error)")
             } else {
@@ -19,11 +22,31 @@ struct EPUBReaderView: View {
         }
         .navigationTitle(book.title)
         .navigationBarTitleDisplayMode(.inline)
+        .onDisappear {
+            if let locator = navigator?.currentLocation,
+               let data = try? JSONSerialization.data(withJSONObject: locator.json),
+               let json = String(data: data, encoding: .utf8) {
+                book.epubLocator = json
+                try? modelContext.save()
+            }
+        }
         .task {
             do {
-                publication = try await BookOpener.shared.open(url: book.fileURL)
+                let pub = try await BookOpener.shared.open(url: book.fileURL)
+                publication = pub
 
-                if book.coverImage == nil, let coverImage = try? await publication?.cover().get() {
+                // Restore saved position
+                var locator: Locator? = nil
+                if let json = book.epubLocator {
+                    locator = try? Locator(jsonString: json)
+                }
+
+                navigator = try EPUBNavigatorViewController(
+                    publication: pub,
+                    initialLocation: locator
+                )
+
+                if book.coverImage == nil, let coverImage = try? await pub.cover().get() {
                     if let data = coverImage.jpegData(compressionQuality: 0.7) {
                         let filename = book.title.replacingOccurrences(of: " ", with: "_") + "_cover.jpg"
                         let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -40,10 +63,10 @@ struct EPUBReaderView: View {
 }
 
 struct EPUBView: UIViewControllerRepresentable {
-    let publication: Publication
+    let navigator: EPUBNavigatorViewController
 
     func makeUIViewController(context: Context) -> EPUBNavigatorViewController {
-        try! EPUBNavigatorViewController(publication: publication, initialLocation: nil)
+        navigator
     }
 
     func updateUIViewController(_ uiViewController: EPUBNavigatorViewController, context: Context) {}
