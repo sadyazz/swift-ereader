@@ -29,7 +29,7 @@ struct EPUBReaderView: View {
                         let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
                         let coverURL = docsDir.appendingPathComponent(filename)
                         try? data.write(to: coverURL)
-                        book.coverImage = coverURL.path
+                        book.coverImage = filename
                     }
                 }
             } catch {

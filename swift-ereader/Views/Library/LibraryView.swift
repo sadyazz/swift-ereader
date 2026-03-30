@@ -29,14 +29,21 @@ struct LibraryView: View{
                                 ForEach(books) { book in 
                                     NavigationLink(destination: readerView(for: book)) {
                                         HStack(spacing: 12) {
-                                            RoundedRectangle(cornerRadius: 4)
-                                                .fill(Color.gray.opacity(0.3))
-                                                .frame(width: 40, height: 60)
-                                                .overlay(
-                                                    Image(systemName: "book.fill")
-                                                        .font(.system(size: 16))
-                                                        .foregroundColor(.gray)
-                                                )
+                                            if let coverURL = book.coverURL, let image = UIImage(contentsOfFile: coverURL.path) {
+                                                Image(uiImage: image)
+                                                    .resizable()
+                                                    .frame(width: 40, height: 60)
+                                                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                                            } else {
+                                                RoundedRectangle(cornerRadius: 4)
+                                                    .fill(Color.gray.opacity(0.3))
+                                                    .frame(width: 40, height: 60)
+                                                    .overlay(
+                                                        Image(systemName: "book.fill")
+                                                            .font(.system(size: 16))
+                                                            .foregroundColor(.gray)
+                                                    )
+                                            }
                                             Text(book.title)
                                                 .font(.body)
                                                 .lineLimit(1)
@@ -44,6 +51,13 @@ struct LibraryView: View{
                                         }
                                         .padding(.horizontal)
                                         .padding(.vertical, 8)
+                                    }
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            deleteBook(book)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
                                     }
                                     Divider()
                                 }
@@ -55,6 +69,13 @@ struct LibraryView: View{
                                 ForEach(books) { book in 
                                     NavigationLink(destination: readerView(for: book)) {
                                         BookGridItem(book: book)
+                                    }
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            deleteBook(book)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
                                     }
                                 }
                             }
@@ -116,13 +137,24 @@ struct LibraryView: View{
         }
     }
 
+    private func deleteBook(_ book: Book) {
+        try? FileManager.default.removeItem(at: book.fileURL)
+
+        if let coverURL = book.coverURL {
+            try? FileManager.default.removeItem(at: coverURL)
+        }
+
+        modelContext.delete(book)
+        try? modelContext.save()
+    }
+
     private func saveCoverImage(_ image: UIImage, for title: String) -> String? {
         guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
         let filename = title.replacingOccurrences(of: " ", with: "_") + "_cover.jpg"
         let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let coverURL = docsDir.appendingPathComponent(filename)
         try? data.write(to: coverURL)
-        return coverURL.path
+        return filename
     }
 
     @ViewBuilder

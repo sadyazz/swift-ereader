@@ -11,11 +11,24 @@ class Book {
     init(title: String, coverImage: String?, fileURL: URL, dateAdded: Date) {
         self.title = title
         self.coverImage = coverImage
-        self.filePath = fileURL.path
+        // store path relative to Documents directory
+        let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path
+        if fileURL.path.hasPrefix(docsPath) {
+            self.filePath = String(fileURL.path.dropFirst(docsPath.count + 1))
+        } else {
+            self.filePath = fileURL.path
+        }
         self.dateAdded = dateAdded
     }
 
     var fileURL: URL {
-        URL(fileURLWithPath: filePath)
+        let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return docsDir.appendingPathComponent(filePath)
+    }
+
+    var coverURL: URL? {
+        guard let coverImage else { return nil }
+        let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return docsDir.appendingPathComponent(coverImage)
     }
 }

@@ -5,7 +5,7 @@ struct BookGridItem: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            if let coverPath = book.coverImage, let image = UIImage(contentsOfFile: coverPath) {
+            if let coverURL = book.coverURL, let image = UIImage(contentsOfFile: coverURL.path) {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(2/3, contentMode: .fill)
