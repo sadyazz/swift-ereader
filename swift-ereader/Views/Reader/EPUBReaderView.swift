@@ -22,6 +22,16 @@ struct EPUBReaderView: View {
         .task {
             do {
                 publication = try await BookOpener.shared.open(url: book.fileURL)
+
+                if book.coverImage == nil, let coverImage = try? await publication?.cover().get() {
+                    if let data = coverImage.jpegData(compressionQuality: 0.7) {
+                        let filename = book.title.replacingOccurrences(of: " ", with: "_") + "_cover.jpg"
+                        let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                        let coverURL = docsDir.appendingPathComponent(filename)
+                        try? data.write(to: coverURL)
+                        book.coverImage = coverURL.path
+                    }
+                }
             } catch {
                 self.error = error.localizedDescription
             }

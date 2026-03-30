@@ -81,16 +81,48 @@ struct LibraryView: View{
 
     private func addBook() {
         openDocumentPicker { urls in
-            for url in urls {
-                let book = Book(
-                    title: url.deletingPathExtension().lastPathComponent,
-                    coverImage: nil,
-                    fileURL: url,
-                    dateAdded: Date()
-                )
-                modelContext.insert(book)
+            DispatchQueue.main.async {
+                let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let booksDir = docsDir.appendingPathComponent("Books")
+                try? FileManager.default.createDirectory(at: booksDir, withIntermediateDirectories: true)
+
+                for url in urls {
+                    let destination = booksDir.appendingPathComponent(url.lastPathComponent)
+                    try? FileManager.default.removeItem(at: destination)
+                    do {
+                        try FileManager.default.copyItem(at: url, to: destination)
+                    } catch {
+                        print("failed to copy file: \(error)")
+                        continue
+                    }
+
+                    let book = Book(
+                        title: url.deletingPathExtension().lastPathComponent,
+                        coverImage: nil,
+                        fileURL: destination,
+                        dateAdded: Date()
+                    )
+
+                    if destination.pathExtension.lowercased() == "pdf" {
+                        if let cover = CoverExtractor.extractPDFCover(from: destination) {
+                            let coverPath = saveCoverImage(cover, for: book.title)
+                            book.coverImage = coverPath
+                        }
+                    }
+
+                    modelContext.insert(book)
+                }
             }
         }
+    }
+
+    private func saveCoverImage(_ image: UIImage, for title: String) -> String? {
+        guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
+        let filename = title.replacingOccurrences(of: " ", with: "_") + "_cover.jpg"
+        let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let coverURL = docsDir.appendingPathComponent(filename)
+        try? data.write(to: coverURL)
+        return coverURL.path
     }
 
     @ViewBuilder
