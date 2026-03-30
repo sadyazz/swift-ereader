@@ -143,6 +143,10 @@ struct LibraryView: View{
                         }
                     }
 
+                    if books.contains(where: {$0.filePath == book.filePath}) {
+                        continue
+                    }
+
                     modelContext.insert(book)
                 }
             }
