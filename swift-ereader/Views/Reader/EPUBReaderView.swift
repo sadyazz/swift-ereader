@@ -12,6 +12,7 @@ struct EPUBReaderView: View {
     @State private var currentTheme: Theme
     @State private var fontSize: Double
     @State private var showSettings = false
+    @State private var showTOC = false
 
     init(book: Book) {
         self.book = book
@@ -35,10 +36,17 @@ struct EPUBReaderView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    showSettings = true
-                } label: {
-                    Image(systemName: "textformat")
+                HStack(spacing: 16) {
+                    Button {
+                        showTOC = true
+                    } label: {
+                        Image(systemName: "list.bullet")
+                    }
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "textformat")
+                    }
                 }
             }
         }
@@ -55,6 +63,18 @@ struct EPUBReaderView: View {
             )
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
+        }
+        .sheet(isPresented: $showTOC) {
+            if let publication {
+                TOCView(publication: publication) { link in
+                    showTOC = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        Task { await navigator?.go(to: link) }
+                    }
+                }
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+            }
         }
         .onDisappear {
             if let locator = navigator?.currentLocation,
