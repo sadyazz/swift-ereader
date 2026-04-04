@@ -14,6 +14,6 @@ struct swift_ereaderApp: App {
         WindowGroup {
             LibraryView()
         }
-        .modelContainer(for: Book.self)
+        .modelContainer(for: [Book.self, Bookmark.self])
     }
 }

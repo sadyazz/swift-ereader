@@ -13,6 +13,7 @@ struct EPUBReaderView: View {
     @State private var fontSize: Double
     @State private var showSettings = false
     @State private var showTOC = false
+    @State private var showBookmarks = false
 
     init(book: Book) {
         self.book = book
@@ -41,6 +42,16 @@ struct EPUBReaderView: View {
                         showTOC = true
                     } label: {
                         Image(systemName: "list.bullet")
+                    }
+                    Button {
+                        addEPUBBookmark()
+                    } label: {
+                        Image(systemName: "bookmark.fill")
+                    }
+                    Button {
+                        showBookmarks = true
+                    } label: {
+                        Image(systemName: "book.pages")
                     }
                     Button {
                         showSettings = true
@@ -75,6 +86,18 @@ struct EPUBReaderView: View {
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
             }
+        }
+        .sheet(isPresented: $showBookmarks) {
+            BookmarksView(bookID: book.filePath) { position in
+                showBookmarks = false
+                if let locator = try? Locator(jsonString: position) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        Task { await navigator?.go(to: locator) }
+                    }
+                }
+            }
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
         }
         .onDisappear {
             if let locator = navigator?.currentLocation,
@@ -119,6 +142,22 @@ struct EPUBReaderView: View {
                 self.error = error.localizedDescription
             }
         }
+    }
+
+    private func addEPUBBookmark() {
+        guard let locator = navigator?.currentLocation,
+              let data = try? JSONSerialization.data(withJSONObject: locator.json),
+              let json = String(data: data, encoding: .utf8) else { return }
+        let progression = locator.locations.totalProgression ?? 0
+        let percent = Int(progression * 100)
+        let title = locator.title ?? "Page \(percent)%"
+        let bookmark = Bookmark(
+            bookID: book.filePath,
+            title: title,
+            position: json
+        )
+        modelContext.insert(bookmark)
+        try? modelContext.save()
     }
 
     private func setTheme(_ theme: Theme) {
