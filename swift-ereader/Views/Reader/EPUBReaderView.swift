@@ -14,6 +14,7 @@ struct EPUBReaderView: View {
     @State private var showSettings = false
     @State private var showTOC = false
     @State private var showBookmarks = false
+    @State private var sessionStart: Date = Date()
 
     init(book: Book) {
         self.book = book
@@ -99,13 +100,26 @@ struct EPUBReaderView: View {
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
+        .onAppear {
+            sessionStart = Date()
+        }
         .onDisappear {
+            let duration = Date().timeIntervalSince(sessionStart)
+            if duration > 5 {
+                book.totalReadingTime += duration
+                let session = ReadingSession(
+                    bookID: book.filePath,
+                    date: Date(),
+                    duration: duration
+                )
+                modelContext.insert(session)
+            }
             if let locator = navigator?.currentLocation,
                let data = try? JSONSerialization.data(withJSONObject: locator.json),
                let json = String(data: data, encoding: .utf8) {
                 book.epubLocator = json
-                try? modelContext.save()
             }
+            try? modelContext.save()
         }
         .task {
             do {
@@ -142,6 +156,7 @@ struct EPUBReaderView: View {
                 self.error = error.localizedDescription
             }
         }
+        .toolbar(.hidden, for: .tabBar)
     }
 
     private func addEPUBBookmark() {

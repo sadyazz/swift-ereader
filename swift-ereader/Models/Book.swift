@@ -10,6 +10,7 @@ class Book {
     var readingProgress: Int?
     var epubLocator: String?
     var lastOpened: Date?
+    var totalReadingTime: Double = 0
 
     init(title: String, coverImage: String?, fileURL: URL, dateAdded: Date) {
         self.title = title

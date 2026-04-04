@@ -19,7 +19,7 @@ struct LibraryView: View{
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Group {
                 if(books.isEmpty) {
                     VStack(spacing: 16) {
@@ -96,6 +96,7 @@ struct LibraryView: View{
                 }
             }
             .navigationTitle("Library")
+            .toolbar(.visible, for: .tabBar)
             .searchable(text: $searchText)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

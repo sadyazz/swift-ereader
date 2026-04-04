@@ -12,6 +12,7 @@ struct PDFReaderView: View {
     let book: Book
     @State private var showBookmarks = false
     @State private var currentPage: Int = 0
+    @State private var sessionStart: Date = Date()
 
     var body: some View {
         PDFKitView(book: book)
@@ -49,7 +50,20 @@ struct PDFReaderView: View {
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
             }
+            .onAppear {
+                sessionStart = Date()
+            }
             .onDisappear {
+                let duration = Date().timeIntervalSince(sessionStart)
+                if duration > 5 {
+                    book.totalReadingTime += duration
+                    let session = ReadingSession(
+                        bookID: book.filePath,
+                        date: Date(),
+                        duration: duration
+                    )
+                    modelContext.insert(session)
+                }
                 try? modelContext.save()
             }
             .onReceive(NotificationCenter.default.publisher(for: .currentPageChanged)) { notif in
@@ -57,6 +71,7 @@ struct PDFReaderView: View {
                     currentPage = page
                 }
             }
+            .toolbar(.hidden, for: .tabBar)
     }
 
     private func addPDFBookmark() {
