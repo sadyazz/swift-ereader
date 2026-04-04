@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 import ReadiumNavigator
 import ReadiumShared
+import WidgetKit
 
 struct EPUBReaderView: View {
     @Environment(\.modelContext) private var modelContext
@@ -102,6 +103,8 @@ struct EPUBReaderView: View {
         }
         .onAppear {
             sessionStart = Date()
+            book.lastOpened = Date()
+            try? modelContext.save()
         }
         .onDisappear {
             let duration = Date().timeIntervalSince(sessionStart)
@@ -120,6 +123,7 @@ struct EPUBReaderView: View {
                 book.epubLocator = json
             }
             try? modelContext.save()
+            WidgetCenter.shared.reloadAllTimelines()
         }
         .task {
             do {
@@ -149,6 +153,11 @@ struct EPUBReaderView: View {
                         let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
                         let coverURL = docsDir.appendingPathComponent(filename)
                         try? data.write(to: coverURL)
+                        // also save to shared container for widget
+                        if let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.jasmina.swift-ereader") {
+                            let sharedCoverURL = groupURL.appendingPathComponent(filename)
+                            try? data.write(to: sharedCoverURL)
+                        }
                         book.coverImage = filename
                     }
                 }

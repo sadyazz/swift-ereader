@@ -7,19 +7,80 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD9A30372F8162EE00007CFF /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD9A30362F8162EE00007CFF /* WidgetKit.framework */; };
+		DD9A30392F8162EE00007CFF /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD9A30382F8162EE00007CFF /* SwiftUI.framework */; };
+		DD9A304A2F8162F000007CFF /* swift-ereader-widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DD9A30352F8162EE00007CFF /* swift-ereader-widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DDC890B32F7848F3008727F0 /* ReadiumNavigator in Frameworks */ = {isa = PBXBuildFile; productRef = DDC890B22F7848F3008727F0 /* ReadiumNavigator */; };
 		DDC890B82F785E4B008727F0 /* ReadiumStreamer in Frameworks */ = {isa = PBXBuildFile; productRef = DDC890B72F785E4B008727F0 /* ReadiumStreamer */; };
 		DDC890BC2F785F38008727F0 /* ReadiumShared in Frameworks */ = {isa = PBXBuildFile; productRef = DDC890BB2F785F38008727F0 /* ReadiumShared */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		DD9A30482F8162F000007CFF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD2D48072F4268600087196B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD9A30342F8162EE00007CFF;
+			remoteInfo = "swift-ereader-widgetExtension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DD9A304F2F8162F000007CFF /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				DD9A304A2F8162F000007CFF /* swift-ereader-widgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		DD2D480F2F4268600087196B /* swift-ereader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "swift-ereader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD9A30352F8162EE00007CFF /* swift-ereader-widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "swift-ereader-widgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD9A30362F8162EE00007CFF /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		DD9A30382F8162EE00007CFF /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		DD9A30512F8163AA00007CFF /* swift-ereader-widgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "swift-ereader-widgetExtension.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DD9A304B2F8162F000007CFF /* Exceptions for "swift-ereader-widget" folder in "swift-ereader-widgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = DD9A30342F8162EE00007CFF /* swift-ereader-widgetExtension */;
+		};
+		DD9A30532F8163FE00007CFF /* Exceptions for "swift-ereader" folder in "swift-ereader-widgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/Book.swift,
+				Models/Bookmark.swift,
+				Models/ReadingSession.swift,
+			);
+			target = DD9A30342F8162EE00007CFF /* swift-ereader-widgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DD2D48112F4268600087196B /* swift-ereader */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DD9A30532F8163FE00007CFF /* Exceptions for "swift-ereader" folder in "swift-ereader-widgetExtension" target */,
+			);
 			path = "swift-ereader";
+			sourceTree = "<group>";
+		};
+		DD9A303A2F8162EE00007CFF /* swift-ereader-widget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DD9A304B2F8162F000007CFF /* Exceptions for "swift-ereader-widget" folder in "swift-ereader-widgetExtension" target */,
+			);
+			path = "swift-ereader-widget";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -35,13 +96,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD9A30322F8162EE00007CFF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD9A30392F8162EE00007CFF /* SwiftUI.framework in Frameworks */,
+				DD9A30372F8162EE00007CFF /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		DD2D48062F4268600087196B = {
 			isa = PBXGroup;
 			children = (
+				DD9A30512F8163AA00007CFF /* swift-ereader-widgetExtension.entitlements */,
 				DD2D48112F4268600087196B /* swift-ereader */,
+				DD9A303A2F8162EE00007CFF /* swift-ereader-widget */,
 				DDC890B62F785E4A008727F0 /* Frameworks */,
 				DD2D48102F4268600087196B /* Products */,
 			);
@@ -51,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				DD2D480F2F4268600087196B /* swift-ereader.app */,
+				DD9A30352F8162EE00007CFF /* swift-ereader-widgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,6 +131,8 @@
 		DDC890B62F785E4A008727F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DD9A30362F8162EE00007CFF /* WidgetKit.framework */,
+				DD9A30382F8162EE00007CFF /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -72,10 +147,12 @@
 				DD2D480B2F4268600087196B /* Sources */,
 				DD2D480C2F4268600087196B /* Frameworks */,
 				DD2D480D2F4268600087196B /* Resources */,
+				DD9A304F2F8162F000007CFF /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DD9A30492F8162F000007CFF /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				DD2D48112F4268600087196B /* swift-ereader */,
@@ -90,6 +167,28 @@
 			productReference = DD2D480F2F4268600087196B /* swift-ereader.app */;
 			productType = "com.apple.product-type.application";
 		};
+		DD9A30342F8162EE00007CFF /* swift-ereader-widgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD9A304C2F8162F000007CFF /* Build configuration list for PBXNativeTarget "swift-ereader-widgetExtension" */;
+			buildPhases = (
+				DD9A30312F8162EE00007CFF /* Sources */,
+				DD9A30322F8162EE00007CFF /* Frameworks */,
+				DD9A30332F8162EE00007CFF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				DD9A303A2F8162EE00007CFF /* swift-ereader-widget */,
+			);
+			name = "swift-ereader-widgetExtension";
+			packageProductDependencies = (
+			);
+			productName = "swift-ereader-widgetExtension";
+			productReference = DD9A30352F8162EE00007CFF /* swift-ereader-widgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -97,11 +196,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2620;
+				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					DD2D480E2F4268600087196B = {
 						CreatedOnToolsVersion = 26.2;
+					};
+					DD9A30342F8162EE00007CFF = {
+						CreatedOnToolsVersion = 26.3;
 					};
 				};
 			};
@@ -123,12 +225,20 @@
 			projectRoot = "";
 			targets = (
 				DD2D480E2F4268600087196B /* swift-ereader */,
+				DD9A30342F8162EE00007CFF /* swift-ereader-widgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		DD2D480D2F4268600087196B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD9A30332F8162EE00007CFF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -145,7 +255,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DD9A30312F8162EE00007CFF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DD9A30492F8162F000007CFF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD9A30342F8162EE00007CFF /* swift-ereader-widgetExtension */;
+			targetProxy = DD9A30482F8162F000007CFF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		DD2D48182F4268620087196B /* Debug */ = {
@@ -272,6 +397,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "swift-ereader/swift-ereader.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HRZQ3X3G4Y;
@@ -304,6 +430,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "swift-ereader/swift-ereader.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HRZQ3X3G4Y;
@@ -331,6 +458,70 @@
 			};
 			name = Release;
 		};
+		DD9A304D2F8162F000007CFF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "swift-ereader-widgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HRZQ3X3G4Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "swift-ereader-widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "swift-ereader-widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jasmina.swift-ereader.swift-ereader-widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DD9A304E2F8162F000007CFF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "swift-ereader-widgetExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HRZQ3X3G4Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "swift-ereader-widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "swift-ereader-widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jasmina.swift-ereader.swift-ereader-widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -348,6 +539,15 @@
 			buildConfigurations = (
 				DD2D481B2F4268620087196B /* Debug */,
 				DD2D481C2F4268620087196B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD9A304C2F8162F000007CFF /* Build configuration list for PBXNativeTarget "swift-ereader-widgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD9A304D2F8162F000007CFF /* Debug */,
+				DD9A304E2F8162F000007CFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

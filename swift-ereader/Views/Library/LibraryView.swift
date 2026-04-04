@@ -171,6 +171,11 @@ struct LibraryView: View{
         let docsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let coverURL = docsDir.appendingPathComponent(filename)
         try? data.write(to: coverURL)
+        // also save to shared container for widget
+        if let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.jasmina.swift-ereader") {
+            let sharedCoverURL = groupURL.appendingPathComponent(filename)
+            try? data.write(to: sharedCoverURL)
+        }
         return filename
     }
 
@@ -178,10 +183,8 @@ struct LibraryView: View{
     private func readerView(for book: Book) -> some View {
         if book.fileURL.pathExtension.lowercased() == "epub" {
             EPUBReaderView(book: book)
-                .onAppear { book.lastOpened = Date() }
         } else {
             PDFReaderView(book: book)
-                .onAppear { book.lastOpened = Date() }
         }
     }
 }

@@ -1,6 +1,7 @@
 import SwiftUI
 import PDFKit
 import SwiftData
+import WidgetKit
 
 extension Notification.Name {
     static let goToPage = Notification.Name("goToPage")
@@ -52,6 +53,8 @@ struct PDFReaderView: View {
             }
             .onAppear {
                 sessionStart = Date()
+                book.lastOpened = Date()
+                try? modelContext.save()
             }
             .onDisappear {
                 let duration = Date().timeIntervalSince(sessionStart)
@@ -65,6 +68,7 @@ struct PDFReaderView: View {
                     modelContext.insert(session)
                 }
                 try? modelContext.save()
+                WidgetCenter.shared.reloadAllTimelines()
             }
             .onReceive(NotificationCenter.default.publisher(for: .currentPageChanged)) { notif in
                 if let page = notif.userInfo?["page"] as? Int {
