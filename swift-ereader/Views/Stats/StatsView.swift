@@ -111,7 +111,7 @@ struct StatsView: View {
     }
 
     private var totalReadingTime: Double {
-        books.reduce(0) { $0 + $1.totalReadingTime }
+        sessions.reduce(0) { $0 + $1.duration }
     }
 
     private var todayReadingTime: Double {

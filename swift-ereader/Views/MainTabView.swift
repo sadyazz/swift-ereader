@@ -9,6 +9,12 @@ struct MainTabView: View {
                     Text("Library")
                 }
 
+            CollectionsView()
+                .tabItem {
+                    Image(systemName: "folder")
+                    Text("Collections")
+                }
+
             StatsView()
                 .tabItem {
                     Image(systemName: "chart.bar")

@@ -5,6 +5,7 @@ import SwiftData
 struct LibraryView: View{
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Book.dateAdded, order: .reverse) private var books: [Book]
+    @Query(sort: \BookCollection.dateCreated) private var collections: [BookCollection]
     @State private var showAsList = false
     @State private var searchText = ""
 
@@ -64,6 +65,22 @@ struct LibraryView: View{
                                         .padding(.vertical, 8)
                                     }
                                     .contextMenu {
+                                        if !collections.isEmpty {
+                                            Menu {
+                                                ForEach(collections) { collection in
+                                                    Button {
+                                                        if !collection.bookIDs.contains(book.filePath) {
+                                                            collection.bookIDs.append(book.filePath)
+                                                            try? modelContext.save()
+                                                        }
+                                                    } label: {
+                                                        Label(collection.name, systemImage: collection.bookIDs.contains(book.filePath) ? "checkmark" : "folder")
+                                                    }
+                                                }
+                                            } label: {
+                                                Label("Add to Collection", systemImage: "folder.badge.plus")
+                                            }
+                                        }
                                         Button(role: .destructive) {
                                             deleteBook(book)
                                         } label: {
@@ -82,6 +99,22 @@ struct LibraryView: View{
                                         BookGridItem(book: book)
                                     }
                                     .contextMenu {
+                                        if !collections.isEmpty {
+                                            Menu {
+                                                ForEach(collections) { collection in
+                                                    Button {
+                                                        if !collection.bookIDs.contains(book.filePath) {
+                                                            collection.bookIDs.append(book.filePath)
+                                                            try? modelContext.save()
+                                                        }
+                                                    } label: {
+                                                        Label(collection.name, systemImage: collection.bookIDs.contains(book.filePath) ? "checkmark" : "folder")
+                                                    }
+                                                }
+                                            } label: {
+                                                Label("Add to Collection", systemImage: "folder.badge.plus")
+                                            }
+                                        }
                                         Button(role: .destructive) {
                                             deleteBook(book)
                                         } label: {

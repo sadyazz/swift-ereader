@@ -6,7 +6,7 @@ struct swift_ereaderApp: App {
     let container: ModelContainer
 
     init() {
-        let schema = Schema([Book.self, Bookmark.self, ReadingSession.self])
+        let schema = Schema([Book.self, Bookmark.self, ReadingSession.self, BookCollection.self])
         let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.jasmina.swift-ereader")!
         let storeURL = groupURL.appendingPathComponent("library.store")
         let config = ModelConfiguration(url: storeURL)

@@ -11,6 +11,7 @@ just a learning project i built for fun while learning swift
 - bookmarks, table of contents, themes (light/dark/sepia), adjustable font sizes
 - reading stats with streaks and weekly activity
 - home screen widgets
+- collections/shelves to organize books
 - grid and list views in the library
 
 ## requirements
@@ -43,9 +44,9 @@ tap the + button in the library view, pick your epub or pdf files, and they get 
 ```
 swift-ereader/
   App/              - app entry point
-  Models/           - Book, Bookmark, ReadingSession
+  Models/           - Book, Bookmark, ReadingSession, BookCollection
   Views/
-    Library/        - library grid, book cards, import
+    Library/        - library grid, book cards, import, collections
     Reader/         - epub reader, pdf reader, bookmarks, toc
     Stats/          - reading statistics dashboard
   Services/         - book opener, cover extraction
@@ -59,6 +60,7 @@ swift-ereader-widget/  - home screen widgets
 
 <p align="center">
   <img src=".github/library-view.PNG" alt="library view" width="200px">
+  <img src=".github/collections-view.PNG" alt="collections view" width="200px">
   <img src=".github/stats-view.PNG" alt="stats view" width="200px">
 </p>
 </details>

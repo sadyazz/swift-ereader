@@ -17,7 +17,7 @@ struct Provider: TimelineProvider {
     let container: ModelContainer
 
     init() {
-        let schema = Schema([Book.self, ReadingSession.self, Bookmark.self])
+        let schema = Schema([Book.self, ReadingSession.self, Bookmark.self, BookCollection.self])
         let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.jasmina.swift-ereader")!
         let storeURL = groupURL.appendingPathComponent("library.store")
         let config = ModelConfiguration(url: storeURL)

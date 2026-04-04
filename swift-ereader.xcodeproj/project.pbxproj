@@ -59,6 +59,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Models/Book.swift,
+				Models/BookCollection.swift,
 				Models/Bookmark.swift,
 				Models/ReadingSession.swift,
 			);
